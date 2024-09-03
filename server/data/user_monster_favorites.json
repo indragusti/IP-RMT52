@@ -1,0 +1,18 @@
+[
+  {
+    "userId": 1,
+    "monsterId": 1
+  },
+  {
+    "userId": 1,
+    "monsterId": 2
+  },
+  {
+    "userId": 2,
+    "monsterId": 1
+  },
+  {
+    "userId": 2,
+    "monsterId": 2
+  }
+]
