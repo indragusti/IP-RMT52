@@ -2,13 +2,19 @@
   {
     "username": "admin",
     "email": "admin@mail.com",
-    "password": "adminadmin",
+    "password": "admin1234",
     "role": "admin"
   },
   {
-    "username": "saya",
-    "email": "saya@mail.com",
-    "password": "sayasaya",
+    "username": "hunter1",
+    "email": "hunter1@mail.com",
+    "password": "hunter1",
+    "role": "user"
+  },
+  {
+    "username": "hunter2",
+    "email": "hunter2@mail.com",
+    "password": "hunter2",
     "role": "user"
   }
 ]

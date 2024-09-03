@@ -79,21 +79,25 @@ Permintaan API: Anda akan membuat permintaan HTTP GET ke https://mhw-db.com/weap
 Menangani Respons: Setelah menerima data, Anda akan memproses data tersebut (misalnya, parsing JSON) dan menampilkannya dalam antarmuka aplikasi web Anda.
 Pengalaman Pengguna: Fokus pada membuat pengalaman pengguna yang baik dengan menyajikan data dalam format yang mudah dibaca dan interaktif.
 
+Create: POST /users/:userId/favorites - Menambahkan monster ke dalam daftar favorit pengguna.
+Read: GET /users/:userId/favorites - Mengambil daftar monster favorit untuk pengguna.
+Delete: DELETE /users/:userId/favorites/:monsterId - Menghapus monster dari daftar favorit pengguna.
 
-1. Tabel user
-id	name	       email	              password
-1	Alice	       alice@example.com	pass123
-2	Bob	       bob@example.com	pass456
-3	Charlie	charlie@example.com	pass789
 
-2. Tabel monster
+1. Tabel User
+id	name	       email	              password      role
+1	Alice	       alice@example.com	pass123       admin
+2	Bob	       bob@example.com	pass456       user
+3	Charlie	charlie@example.com	pass789       user
+
+2. Tabel Monster
 id	name	   types	species	description
 1	Dragon	   Fire	Dragon	       A fire-breathing dragon
 2	Goblin	   Earth	Goblin	       A small, mischievous creature
 3	Phoenix   Fire/Air	Phoenix	A mythical bird that regenerates
 
-3. Tabel user_monster_favorites
-user_id	monster_id
+3. Tabel UserFavorites
+userId	       monsterId
 1	       1
 1	       2
 2	       1
@@ -102,21 +106,102 @@ user_id	monster_id
 npx sequelize db:create
 
 npx sequelize-cli model:generate --name User --attributes username:string,email:string,password:string,role:string
-npx sequelize-cli model:generate --name Monster --attributes id:integer,type:string,species:string,name:string,description:string,imgUrl:string
-npx sequelize-cli model:generate --name FavoriteMonster --attributes userId:integer,monsterId:integer
+npx sequelize-cli model:generate --name Monster --attributes type:string,species:string,name:string,description:string,imgUrl:string
+npx sequelize-cli model:generate --name UserFavorite --attributes userId:integer,monsterId:integer
 
 npx sequelize db:migrate
 
-npx sequelize-cli seed:generate --name seed-user
-npx sequelize-cli seed:generate --name seed-monster
-npx sequelize-cli seed:generate --name seed-favorite-monster
+npx sequelize-cli seed:generate --name seed-User
+npx sequelize-cli seed:generate --name seed-Monster
+npx sequelize-cli seed:generate --name seed-UserFavorite
 
 npx sequelize db:seed:all
 
 endpoint
-get /user
+post /login
 get /monster
 get /monster/:id
-get /favorite
-get /favorite/:id
-post 
+get /user/:id/favorites
+post /user/:id/favorites
+del /user/:id/favorites/:id
+
+
+// const express = require('express');
+// const { User, Monster, UserFavorites } = require('./models'); // Sesuaikan path model
+
+// const router = express.Router();
+
+// // Tambah monster favorit untuk pengguna
+// router.post('/users/:userId/favorites', async (req, res) => {
+//   const { userId } = req.params;
+//   const { monsterId } = req.body;
+
+//   try {
+//     // Periksa apakah pengguna dan monster ada
+//     const user = await User.findByPk(userId);
+//     const monster = await Monster.findByPk(monsterId);
+
+//     if (!user || !monster) {
+//       return res.status(404).json({ error: 'User or Monster not found' });
+//     }
+
+//     // Tambahkan ke UserFavorites
+//     await UserFavorites.create({ userId, monsterId });
+
+//     res.status(201).json({ message: 'Monster added to favorites' });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// module.exports = router;
+
+// // Dapatkan daftar monster favorit pengguna
+// router.get('/users/:userId/favorites', async (req, res) => {
+//   const { userId } = req.params;
+
+//   try {
+//     const user = await User.findByPk(userId);
+
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+
+//     const favorites = await user.getMonsters(); // Menggunakan Sequelize association method
+
+//     res.status(200).json(favorites);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// // Hapus monster dari favorit pengguna
+// router.delete('/users/:userId/favorites/:monsterId', async (req, res) => {
+//   const { userId, monsterId } = req.params;
+
+//   try {
+//     // Periksa apakah pengguna dan monster ada
+//     const user = await User.findByPk(userId);
+//     const monster = await Monster.findByPk(monsterId);
+
+//     if (!user || !monster) {
+//       return res.status(404).json({ error: 'User or Monster not found' });
+//     }
+
+//     // Hapus dari UserFavorites
+//     const result = await UserFavorites.destroy({
+//       where: {
+//         userId,
+//         monsterId
+//       }
+//     });
+
+//     if (result === 0) {
+//       return res.status(404).json({ error: 'Favorite not found' });
+//     }
+
+//     res.status(200).json({ message: 'Monster removed from favorites' });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });

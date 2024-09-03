@@ -1,6 +1,6 @@
-const { Monster } = require("../models");
+const { FavoriteMonster } = require("../models");
 
-module.exports = class MonsterController {
+module.exports = class FavoriteController {
   static async getAllMonster(req, res, next) {
     try {
       const data = await Monster.findAll();
