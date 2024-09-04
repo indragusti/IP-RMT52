@@ -17,6 +17,7 @@ module.exports = class UserController {
       next({ name: "BadRequest", message: "Password is required" });
       return;
     }
+
     try {
       const user = await User.findOne({ where: { email } });
       if (!user) {

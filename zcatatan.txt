@@ -1,88 +1,3 @@
-Tentu, mari kita uraikan lebih sederhana bagaimana hubungan antara client, API, dan server dalam arsitektur client-server. Kita akan menggunakan contoh API MHW-DB sebagai konteks.
-
-1. Client (Klien)
-Definisi: Klien adalah perangkat atau aplikasi yang meminta informasi atau layanan dari server.
-Fungsi: Klien berfungsi untuk berinteraksi dengan pengguna dan mengirimkan permintaan data ke API. Contoh klien bisa berupa aplikasi web, aplikasi mobile, atau aplikasi desktop.
-Contoh: Misalnya, aplikasi mobile yang ingin menampilkan informasi tentang senjata dari Monster Hunter World.
-2. API (Application Programming Interface)
-Definisi: API adalah antarmuka yang memungkinkan klien untuk berkomunikasi dengan server. API mendefinisikan bagaimana klien dapat meminta data atau layanan dari server.
-Fungsi: API bertindak sebagai jembatan antara klien dan server. API menentukan format dan metode untuk permintaan data, serta format respons yang akan diterima oleh klien.
-Contoh: API MHW-DB menyediakan endpoint seperti https://mhw-db.com/weapons yang bisa diakses untuk mendapatkan data tentang senjata.
-3. Server (Server API)
-Definisi: Server adalah sistem yang menyimpan data dan menyediakan layanan sesuai dengan permintaan yang dikirim oleh klien melalui API.
-Fungsi: Server menerima permintaan dari klien melalui API, memproses permintaan tersebut, dan mengirimkan respons yang sesuai kembali ke klien.
-Contoh: Server yang menjalankan API MHW-DB memiliki basis data yang menyimpan informasi tentang senjata, monster, dan item dalam Monster Hunter World.
-Hubungan antara Client, API, dan Server:
-Klien Mengirimkan Permintaan:
-
-Klien membuat permintaan HTTP ke API dengan menentukan endpoint tertentu (misalnya, https://mhw-db.com/weapons) untuk mendapatkan informasi.
-Permintaan ini mungkin mencakup parameter tertentu, seperti jenis data yang dibutuhkan atau filter yang harus diterapkan.
-API Menyalurkan Permintaan ke Server:
-
-API menerima permintaan dari klien dan meneruskan permintaan tersebut ke server.
-API juga dapat melakukan validasi terhadap permintaan dan memastikan bahwa permintaan sesuai dengan spesifikasi yang diterima.
-Server Memproses Permintaan dan Mengirim Respons:
-
-Server menerima permintaan yang diteruskan oleh API, memprosesnya (misalnya, mengambil data dari basis data), dan menyiapkan respons.
-Respons ini dikirim kembali melalui API dalam format yang ditentukan (misalnya, JSON).
-API Menyampaikan Respons ke Klien:
-
-API menerima respons dari server dan menyampaikannya kepada klien.
-Klien kemudian memproses data yang diterima dan menampilkan atau menggunakan data tersebut sesuai kebutuhan pengguna.
-
-
-+---------------------+          HTTP Request           +---------------------+
-|                     | ----------------------------->  |                     |
-|      Client         |                                 |    API Server       |
-|  (e.g., Mobile App) |         API Endpoint            | (e.g., MHW-DB API)  |
-|                     | <-----------------------------  |                     |
-+---------------------+       HTTP Response             +---------------------+
-                                                    |
-                                                    |
-                                                    |
-                                             +----------------------+
-                                             |                      |
-                                             |      Server          |
-                                             |   (Data Storage)     |
-                                             |                      |
-                                             +----------------------+
-
-Contoh Kasus Nyata:
-Permintaan: Aplikasi mobile mengirimkan permintaan HTTP GET ke API MHW-DB untuk informasi senjata: GET https://mhw-db.com/weapons.
-API: API MHW-DB menerima permintaan ini dan meneruskannya ke server.
-Server: Server MHW-DB mencari data senjata dalam basis datanya dan mengirimkan data tersebut (misalnya dalam format JSON) kembali ke API.
-API: API MHW-DB menyampaikan data JSON tersebut kembali ke aplikasi mobile.
-Klien: Aplikasi mobile menerima data dan menampilkan daftar senjata kepada pengguna.
-Dengan cara ini, API berfungsi sebagai perantara antara klien dan server, menyederhanakan komunikasi dan memastikan bahwa data dapat dipertukarkan dengan cara yang terstandarisasi dan terstruktur.
-
-
-kalau begitu, aku sebagai developer apa perlu untuk membuat server, kan datanya udah ada di database yang ada di API mhw-db.com
-
-Betul sekali! Jika Anda menggunakan API MHW-DB untuk mengakses data dan API tersebut sudah ada dan berfungsi dengan baik, Anda tidak perlu membuat server sendiri untuk menyimpan atau mengelola data tersebut. Anda dapat fokus pada pengembangan klien atau aplikasi yang menggunakan API tersebut. Berikut adalah beberapa hal yang perlu Anda pertimbangkan sebagai developer dalam konteks ini:
-
-1. Menggunakan API yang Ada
-Akses Data: Anda dapat langsung membuat permintaan HTTP ke API MHW-DB untuk mendapatkan data yang Anda butuhkan. API ini sudah menyediakan data tentang Monster Hunter World, seperti senjata, monster, dan item.
-Integrasi: Anda akan menulis kode di aplikasi Anda untuk mengintegrasikan API MHW-DB, melakukan permintaan, dan mengolah data yang diterima.
-2. Fungsi Anda Sebagai Developer
-Membaca Dokumentasi API: Pastikan Anda membaca dokumentasi API MHW-DB dengan teliti untuk memahami bagaimana cara membuat permintaan, format data, dan batasan yang mungkin ada.
-Pengembangan Klien: Fokus pada pengembangan aplikasi atau antarmuka pengguna (UI) yang berinteraksi dengan API. Ini termasuk membuat permintaan API, menangani respons, dan menampilkan data kepada pengguna dengan cara yang berguna dan menarik.
-Manajemen Error: Implementasikan penanganan error untuk situasi di mana API mungkin tidak tersedia atau respons yang diterima tidak sesuai dengan harapan.
-Keamanan: Pastikan bahwa data yang dikirim dan diterima aman, terutama jika API memerlukan autentikasi atau jika data sensitif terlibat.
-3. Saat Anda Perlu Membuat Server Sendiri
-Penyimpanan dan Pengolahan Data: Jika Anda perlu menyimpan data secara lokal, mengolah data sebelum dikirim ke klien, atau menggabungkan data dari beberapa sumber, Anda mungkin perlu membuat server sendiri. Server Anda dapat berfungsi sebagai middleware antara klien dan API eksternal.
-Kustomisasi dan Ekstensi: Jika Anda perlu menambahkan fungsionalitas tambahan yang tidak disediakan oleh API MHW-DB atau mengubah cara data ditampilkan, Anda mungkin ingin membuat server sendiri untuk mengelola logika aplikasi tambahan.
-Cache Data: Jika Anda ingin menyimpan salinan data dari API untuk mengurangi beban pada API eksternal atau untuk keperluan offline, Anda akan membutuhkan server yang menyimpan data tersebut.
-4. Contoh Implementasi Klien
-Misalnya, jika Anda membuat aplikasi web yang menampilkan informasi senjata dari Monster Hunter World:
-
-Permintaan API: Anda akan membuat permintaan HTTP GET ke https://mhw-db.com/weapons untuk mendapatkan data senjata.
-Menangani Respons: Setelah menerima data, Anda akan memproses data tersebut (misalnya, parsing JSON) dan menampilkannya dalam antarmuka aplikasi web Anda.
-Pengalaman Pengguna: Fokus pada membuat pengalaman pengguna yang baik dengan menyajikan data dalam format yang mudah dibaca dan interaktif.
-
-Create: POST /users/:userId/favorites - Menambahkan monster ke dalam daftar favorit pengguna.
-Read: GET /users/:userId/favorites - Mengambil daftar monster favorit untuk pengguna.
-Delete: DELETE /users/:userId/favorites/:monsterId - Menghapus monster dari daftar favorit pengguna.
-
 
 1. Tabel User
 id	name	       email	              password      role
@@ -96,7 +11,7 @@ id	name	   types	species	description
 2	Goblin	   Earth	Goblin	       A small, mischievous creature
 3	Phoenix   Fire/Air	Phoenix	A mythical bird that regenerates
 
-3. Tabel UserFavorites
+3. Tabel UserFavorite
 userId	       monsterId
 1	       1
 1	       2
@@ -110,6 +25,7 @@ npx sequelize-cli model:generate --name Monster --attributes type:string,species
 npx sequelize-cli model:generate --name UserFavorite --attributes userId:integer,monsterId:integer
 
 npx sequelize db:migrate
+npx sequelize db:migrate:undo:all
 
 npx sequelize-cli seed:generate --name seed-User
 npx sequelize-cli seed:generate --name seed-Monster
@@ -121,87 +37,183 @@ endpoint
 post /login
 get /monster
 get /monster/:id
+
 get /user/:id/favorites
 post /user/:id/favorites
 del /user/:id/favorites/:id
 
+get /favorites/:userId
+post /favorites
+del /favorites/:userId/:monsterId
 
-// const express = require('express');
-// const { User, Monster, UserFavorites } = require('./models'); // Sesuaikan path model
 
-// const router = express.Router();
 
-// // Tambah monster favorit untuk pengguna
-// router.post('/users/:userId/favorites', async (req, res) => {
-//   const { userId } = req.params;
-//   const { monsterId } = req.body;
 
-//   try {
-//     // Periksa apakah pengguna dan monster ada
-//     const user = await User.findByPk(userId);
-//     const monster = await Monster.findByPk(monsterId);
 
-//     if (!user || !monster) {
-//       return res.status(404).json({ error: 'User or Monster not found' });
-//     }
 
-//     // Tambahkan ke UserFavorites
-//     await UserFavorites.create({ userId, monsterId });
 
-//     res.status(201).json({ message: 'Monster added to favorites' });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
 
-// module.exports = router;
 
-// // Dapatkan daftar monster favorit pengguna
-// router.get('/users/:userId/favorites', async (req, res) => {
-//   const { userId } = req.params;
 
-//   try {
-//     const user = await User.findByPk(userId);
+const { UserFavorite, Monster, User } = require("../models");
 
-//     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
+module.exports = class UserFavoriteController {
+  // Method untuk mendapatkan monster favorit pengguna
+  static async getFavMonster(req, res, next) {
+    const { userId } = req.params;
 
-//     const favorites = await user.getMonsters(); // Menggunakan Sequelize association method
+    try {
+      // Cek apakah pengguna ada
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return next({ name: "NotFound", message: `User id:${userId} not found` });
+      }
 
-//     res.status(200).json(favorites);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+      // Dapatkan daftar monster favorit pengguna
+      const favorites = await UserFavorite.findAll({
+        where: { userId },
+        include: [Monster]  // Menghubungkan dengan tabel Monster
+      });
 
-// // Hapus monster dari favorit pengguna
-// router.delete('/users/:userId/favorites/:monsterId', async (req, res) => {
-//   const { userId, monsterId } = req.params;
+      res.status(200).json(favorites);
+    } catch (err) {
+      console.log(err, "<<< err getFavMonster");
+      next(err);
+    }
+  }
 
-//   try {
-//     // Periksa apakah pengguna dan monster ada
-//     const user = await User.findByPk(userId);
-//     const monster = await Monster.findByPk(monsterId);
+  // Method untuk menambahkan monster favorit pengguna
+  static async addFavMonster(req, res, next) {
+    const { userId } = req.params;
+    const { monsterId } = req.body;
 
-//     if (!user || !monster) {
-//       return res.status(404).json({ error: 'User or Monster not found' });
-//     }
+    try {
+      // Cek apakah pengguna dan monster ada
+      const user = await User.findByPk(userId);
+      const monster = await Monster.findByPk(monsterId);
 
-//     // Hapus dari UserFavorites
-//     const result = await UserFavorites.destroy({
-//       where: {
-//         userId,
-//         monsterId
-//       }
-//     });
+      if (!user) {
+        return next({ name: "NotFound", message: `User id:${userId} not found` });
+      }
+      if (!monster) {
+        return next({ name: "NotFound", message: `Monster id:${monsterId} not found` });
+      }
 
-//     if (result === 0) {
-//       return res.status(404).json({ error: 'Favorite not found' });
-//     }
+      // Tambahkan data favorit
+      await UserFavorite.create({ userId, monsterId });
+      res.status(201).json({ message: 'Favorite monster added successfully' });
+    } catch (err) {
+      console.log(err, "<<< err addFavMonster");
+      next(err);
+    }
+  }
 
-//     res.status(200).json({ message: 'Monster removed from favorites' });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+  // Method untuk menghapus monster favorit pengguna
+  static async delFavMonster(req, res, next) {
+    const { userId, monsterId } = req.params;
+
+    try {
+      // Cek apakah pengguna dan monster ada
+      const user = await User.findByPk(userId);
+      const monster = await Monster.findByPk(monsterId);
+
+      if (!user) {
+        return next({ name: "NotFound", message: `User id:${userId} not found` });
+      }
+      if (!monster) {
+        return next({ name: "NotFound", message: `Monster id:${monsterId} not found` });
+      }
+
+      // Hapus data favorit
+      const result = await UserFavorite.destroy({
+        where: { userId, monsterId }
+      });
+
+      if (result === 0) {
+        return next({ name: "NotFound", message: `Favorite not found` });
+      }
+
+      res.status(200).json({ message: 'Favorite monster deleted successfully' });
+    } catch (err) {
+      console.log(err, "<<< err delFavMonster");
+      next(err);
+    }
+  }
+};
+
+
+"use strict";
+
+const axios = require("axios");
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    try {
+      const response = await axios.get("https://mhw-db.com/monsters/");
+      const monster = response.data;
+      const data = monster.map((e) => ({
+        id: e.id,
+        name: e.name,
+        type: e.type,
+        species: e.species,
+        description: e.description,
+        elements: JSON.stringify(e.elements), // Convert array to JSON string
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+
+      await queryInterface.bulkInsert("Monsters", data, {});
+    } catch (err) {
+      console.log(err, "<<< seeding monster");
+    }
+  },
+
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete("Monsters", null, {});
+  },
+};
+
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('Monsters', {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      type: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      species: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      elements: {
+        type: Sequelize.TEXT, // Use TEXT for JSON strings
+        allowNull: true,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+    });
+  },
+
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('Monsters');
+  },
+};

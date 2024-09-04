@@ -12,3 +12,18 @@
     "description": "The fully-grown form of Xeno'jiiva. It absorbs energy from its environment to heal itself and change the ecosystem."
   }
 ]
+
+[
+
+  {
+    "id": 55,
+    "type": "large",
+    "species": "elder dragon",
+    "elements": [
+        "fire",
+        "dragon"
+    ],
+    "name": "Safi'jiiva",
+    "description": "The fully-grown form of Xeno'jiiva. It absorbs energy from its environment to heal itself and change the ecosystem."
+  }
+]

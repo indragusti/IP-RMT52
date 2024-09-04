@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.belongsToMany(models.Monster, {
-        through: "FavoriteMonster",
+        through: models.UserFavorite,
         foreignKey: "userId",
         otherKey: "monsterId",
-        as: "dataUser",
+        // as: "dataUser",
       });
     }
   }

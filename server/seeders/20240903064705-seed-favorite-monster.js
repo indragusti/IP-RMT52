@@ -7,10 +7,10 @@ module.exports = {
       e.createdAt = e.updatedAt = new Date();
       return e;
     });
-    await queryInterface.bulkInsert("FavoriteMonsters", data, {});
+    await queryInterface.bulkInsert("UserFavorites", data, {});
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("FavoriteMonsters", null, {});
+    await queryInterface.bulkDelete("UserFavorites", null, {});
   },
 };

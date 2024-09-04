@@ -17,7 +17,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       }));
-      console.log(data);
 
       await queryInterface.bulkInsert("Monsters", data, {});
     } catch (err) {
