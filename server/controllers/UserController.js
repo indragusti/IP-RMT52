@@ -66,4 +66,23 @@ module.exports = class UserController {
       next(err);
     }
   }
+
+  static async register(req, res, next) {
+    const { username, email, password, role } = req.body;
+    try {
+      const user = await User.create({
+        username,
+        email,
+        password,
+        role: "user",
+      });
+      res.status(201).json({
+        username: user.username,
+        email: user.email,
+      });
+    } catch (err) {
+      console.log(err, "<<< err googleLogin");
+      next(err);
+    }
+  }
 };

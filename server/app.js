@@ -12,8 +12,21 @@ const UserFavController = require("./controllers/UserFavController");
 
 const authentication = require("./middlewares/authentication");
 const { errorHandler } = require("./middlewares/errorHandlers");
+const gemini = require("./helpers/gemini");
+
+app.post("/gemini", async (req, res, next) => {
+  try {
+    const { monster1, monster2 } = req.body;
+    let data = await gemini(monster1, monster2);
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 app.post("/login", UserController.login);
+app.post("/login/google", UserController.googleLogin);
+app.post("/register", UserController.register);
 
 app.use(authentication);
 app.get("/monster", MonsterController.getAllMonster);
@@ -21,6 +34,7 @@ app.get("/monster/:id", MonsterController.getPerMonster);
 app.get("/favorites", UserFavController.getFavMonster);
 app.post("/favorites", UserFavController.addFavMonster);
 app.delete("/favorites/:monsterId", UserFavController.delFavMonster);
+app.patch;
 
 app.use(errorHandler);
 
