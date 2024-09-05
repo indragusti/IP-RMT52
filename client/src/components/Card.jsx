@@ -1,29 +1,54 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function CuisineCard({ monster }) {
+export default function MonsterCard({ monster }) {
+  const navigate = useNavigate();
+
+  const handleDetail = (id) => {
+    navigate(`/monster/${id}`);
+  };
+
+  const handleAddToFavorite = (id) => {
+    navigate(`/favorites/${id}`);
+  };
+
   return (
-    <div className="card mb-3" style={{ width: "18rem" }}>
-      <img src={monster.imgUrl} alt={monster.name} className="card-img-top" />
-      <div className="card-body">
-        <h5 className="card-title">{monster.name}</h5>
-        <p className="card-text fs-5">Rp {monster.price.toLocaleString()}</p>
-        <Link to={`/detail/${monster.id}`} className="btn btn-primary">
-          Detail
-        </Link>
+    <div key={monster.id} className="col-md-4 mb-4">
+      <div className="card">
+        <img
+          src={monster.imgUrl || "https://via.placeholder.com/150"}
+          alt={monster.name}
+          className="card-img-top"
+          style={{ height: "150px", objectFit: "cover" }}
+        />
+        <div className="card-body">
+          <h5 className="card-title">{monster.name}</h5>
+          <div className="d-flex justify-content-between">
+            <button
+              onClick={() => handleDetail(monster.id)}
+              className="btn btn-success btn-sm me-2"
+            >
+              Detail
+            </button>
+            <button
+              onClick={() => handleAddToFavorite(monster.id)}
+              className="btn btn-primary btn-sm"
+            >
+              Add to Favorite
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-CuisineCard.propTypes = {
-  cuisine: PropTypes.exact({
+MonsterCard.propTypes = {
+  monster: PropTypes.exact({
     id: PropTypes.number.isRequired,
     name: PropTypes.string,
     imgUrl: PropTypes.string,
-    price: PropTypes.number,
   }),
-  handleOnDetailCuisine: PropTypes.func,
-  handleOnEditCuisine: PropTypes.func,
-  handleOnDeleteCuisine: PropTypes.func,
+  handleDetail: PropTypes.func,
+  handleAddToFavorite: PropTypes.func,
 };

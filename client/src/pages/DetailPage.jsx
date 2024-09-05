@@ -11,9 +11,9 @@ function Detail() {
   const fetchMonsterById = async (id) => {
     try {
       const response = await baseURL.get(`/monster/${id}`, {
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       });
       console.log(response.data, "<<< fetchMonsterById");
       setMonster(response.data.data);

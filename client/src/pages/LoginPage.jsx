@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../helpers/http-client";
 // import axios from "axios";
@@ -16,13 +16,33 @@ function Login() {
         email,
         password,
       });
-      localStorage.setItem("access_token", response.data.data.access_token);
+      localStorage.setItem("access_token", response.data.access_token);
       console.log(response.data, "<<< handleLogin");
-      navigate("/dashboard");
+      navigate("/monster");
     } catch (err) {
       console.log(err, "<<< handleLogin");
     }
   };
+
+  function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential);
+  }
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  useEffect(() => {
+    window.google.accounts.id.initialize({
+      client_id: googleClientId,
+      callback: handleCredentialResponse,
+    });
+    window.google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      {
+        theme: "outline",
+        size: "large",
+      }
+    );
+    // google.accounts.id.prompt();
+  }, []);
 
   return (
     <div className="d-flex justify-content-center align-items-center full-height">
@@ -56,6 +76,9 @@ function Login() {
               Submit
             </button>
           </form>
+          <div className="d-flex justify-content-center">
+            <div id="buttonDiv"></div>
+          </div>
         </div>
       </div>
     </div>
