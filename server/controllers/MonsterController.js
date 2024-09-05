@@ -4,7 +4,7 @@ module.exports = class MonsterController {
   static async getAllMonster(req, res, next) {
     try {
       const data = await Monster.findAll();
-      res.status(200).json({ menus: data, message: `success` });
+      res.status(200).json({ data: data, message: `success` });
     } catch (err) {
       console.log(err, "<<< err getAllMonster");
       next(err);
