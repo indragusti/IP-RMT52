@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { baseURL } from "../helpers/http-client";
 import Navbar from "../components/Navbar";
 import MonsterCard from "../components/Card";
+// import axios from "axios";
 
 function Home() {
   const [monsters, setMonsters] = useState([]);

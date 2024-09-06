@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { baseURL } from "../helpers/http-client";
+import Navbar from "../components/Navbar";
+// import detail from "./styles/detail.css";
+
 // import axios from "axios";
 
 function Detail() {
@@ -36,7 +39,7 @@ function Detail() {
 
   return (
     <div className="app">
-      {/* <Navbar /> */}
+      <Navbar />
       <div className="container mt-4">
         <div className="row g-4">
           <div className="col-md-4">

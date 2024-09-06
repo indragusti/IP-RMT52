@@ -18,7 +18,7 @@ const MonsterController = require("./controllers/MonsterController");
 const UserController = require("./controllers/UserController");
 const UserFavController = require("./controllers/UserFavController");
 
-// const authentication = require("./middlewares/authentication");
+const authentication = require("./middlewares/authentication");
 const { errorHandler } = require("./middlewares/errorHandlers");
 const gemini = require("./helpers/gemini");
 
@@ -32,17 +32,24 @@ app.post("/gemini", async (req, res, next) => {
   }
 });
 
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
+
 app.post("/login", UserController.login);
 app.post("/login/google", UserController.googleLogin);
 app.post("/register", UserController.register);
 
-// app.use(authentication);
+app.use(authentication);
 app.get("/monster", MonsterController.getAllMonster);
 app.get("/monster/:id", MonsterController.getPerMonster);
+app.patch(
+  "/monster/:id/imgUrl",
+  upload.single("file"),
+  MonsterController.uploadImgById
+);
 app.get("/favorites", UserFavController.getFavMonster);
 app.post("/favorites", UserFavController.addFavMonster);
 app.delete("/favorites/:monsterId", UserFavController.delFavMonster);
-// app.patch;
 
 app.use(errorHandler);
 

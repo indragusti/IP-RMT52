@@ -3,42 +3,33 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../helpers/http-client";
 
-export default function MonsterCard({ monster }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+export default function FavoriteMonsterCard({ monster }) {
+  const [isRemoved, setIsRemoved] = useState(false);
   const navigate = useNavigate();
 
-  const handleDetail = (id) => {
-    navigate(`/monster/${id}`);
-  };
-
-  const handleAddToFavorite = async (id) => {
+  const handleRemoveFromFavorite = async (id) => {
     try {
       const token = localStorage.getItem("access_token");
-      const userId = localStorage.getItem("userId");
-      if (!token || !userId) {
+      if (!token) {
         navigate("/login");
         return;
       }
 
-      await baseURL.post(
-        "/favorites",
-        { monsterId: id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await baseURL.delete(`/favorites/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      setIsFavorite(true);
+      setIsRemoved(true);
     } catch (err) {
-      console.error("Failed to add to favorites:", err);
+      console.error("Failed to remove from favorites:", err);
     }
   };
 
-  const handleUploadImage = (id) => {
-    navigate(`/monster/${id}/update-img`);
-  };
+  if (isRemoved) {
+    return null;
+  }
 
   return (
     <div key={monster.id} className="col-md-4 mb-4">
@@ -53,23 +44,16 @@ export default function MonsterCard({ monster }) {
           <h5 className="card-title">{monster.name}</h5>
           <div className="d-flex justify-content-between">
             <button
-              onClick={() => handleDetail(monster.id)}
+              onClick={() => navigate(`/monster/${monster.id}`)}
               className="btn btn-success btn-sm me-2"
             >
               Detail
             </button>
             <button
-              onClick={() => handleAddToFavorite(monster.id)}
-              className="btn btn-primary btn-sm"
-              disabled={isFavorite}
+              onClick={() => handleRemoveFromFavorite(monster.id)}
+              className="btn btn-danger btn-sm"
             >
-              {isFavorite ? "Added to Favorites" : "Add to Favorite"}
-            </button>
-            <button
-              onClick={() => handleUploadImage(monster.id)}
-              className="btn btn-secondary btn-sm"
-            >
-              Upload Image
+              Remove from Favorite
             </button>
           </div>
         </div>
@@ -78,7 +62,7 @@ export default function MonsterCard({ monster }) {
   );
 }
 
-MonsterCard.propTypes = {
+FavoriteMonsterCard.propTypes = {
   monster: PropTypes.exact({
     id: PropTypes.number.isRequired,
     name: PropTypes.string,

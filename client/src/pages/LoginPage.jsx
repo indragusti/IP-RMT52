@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../helpers/http-client";
-// import axios from "axios";
 
 function Login() {
   const [email, setEmail] = useState("admin@mail.com");
@@ -17,8 +16,9 @@ function Login() {
         password,
       });
       localStorage.setItem("access_token", response.data.access_token);
+      localStorage.setItem("userId", response.data.userId);
       console.log(response.data, "<<< handleLogin");
-      navigate("/monster");
+      navigate("/");
     } catch (err) {
       console.log(err, "<<< handleLogin");
     }
@@ -76,35 +76,21 @@ function Login() {
               Submit
             </button>
           </form>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center mt-3">
+            <button
+              type="button"
+              className="btn btn-secondary btn-block"
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </button>
+          </div>
+          <div className="d-flex justify-content-center mt-3">
             <div id="buttonDiv"></div>
           </div>
         </div>
       </div>
     </div>
-
-    // <>
-    //   <div className="background">
-    //     <div className="shape" />1
-    //     <div className="shape" />
-    //   </div>
-    //   <form>
-    //     <h3>Login Here</h3>
-    //     <label htmlFor="username">Email</label>
-    //     <input type="text" placeholder="Email" id="username" />
-    //     <label htmlFor="password">Password</label>
-    //     <input type="password" placeholder="Password" id="password" />
-    //     <button>Log In</button>
-    //     <div className="social">
-    //       <div className="go">
-    //         <i className="fab fa-google" /> Google
-    //       </div>
-    //       <div className="fb">
-    //         <i className="fab fa-facebook" /> Facebook
-    //       </div>
-    //     </div>
-    //   </form>
-    // </>
   );
 }
 

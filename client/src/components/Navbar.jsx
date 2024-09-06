@@ -27,7 +27,7 @@ export default function Navbar() {
               Monster
             </Link>
             <button className="btn btn-link nav-link" onClick={handleLogout}>
-              Login
+              Logout
             </button>
           </div>
         </div>

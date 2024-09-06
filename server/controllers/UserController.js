@@ -30,7 +30,10 @@ module.exports = class UserController {
         return;
       }
       const access_token = signToken({ id: user.id });
-      res.status(200).json({ access_token });
+      res.status(200).json({
+        access_token,
+        userId: user.id,
+      });
     } catch (err) {
       console.log(err, "<<< err login");
       next(err);

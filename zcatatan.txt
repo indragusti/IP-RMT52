@@ -6,10 +6,10 @@ id	name	       email	              password      role
 3	Charlie	charlie@example.com	pass789       user
 
 2. Tabel Monster
-id	name	   types	species	description
-1	Dragon	   Fire	Dragon	       A fire-breathing dragon
-2	Goblin	   Earth	Goblin	       A small, mischievous creature
-3	Phoenix   Fire/Air	Phoenix	A mythical bird that regenerates
+id	name	   types	species	description imgUrl
+1	Dragon	   Fire	Dragon	       A fire-breathing dragon  www.qwe.com/1
+2	Goblin	   Earth	Goblin	       A small, mischievous creature  www.asd.com/2
+3	Phoenix   Fire/Air	Phoenix	A mythical bird that regenerates  www.zxc.com/3
 
 3. Tabel UserFavorite
 userId	       monsterId

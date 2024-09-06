@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import MonsterCard from "../components/Card";
+import FavoriteMonsterCard from "../components/Card2";
 import { baseURL } from "../helpers/http-client";
 
 function FavoritePage() {
@@ -16,14 +16,14 @@ function FavoritePage() {
         return;
       }
 
-      const response = await baseURL.get(`/favorites`, {
+      const response = await baseURL.get("/favorites", {
         params: { userId },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
 
-      setFavorites(response.data);
+      setFavorites(response.data.data);
     } catch (err) {
       console.log(err, "<<< err fetchFavorites");
       navigate("/login");
@@ -50,13 +50,9 @@ function FavoritePage() {
         <div className="row">
           {favorites.length > 0 ? (
             favorites.map((monster) => (
-              <MonsterCard
-                key={monster.id}
-                monster={{
-                  id: monster.id,
-                  name: monster.name,
-                  imgUrl: monster.imgUrl,
-                }}
+              <FavoriteMonsterCard
+                key={monster.Monster.id}
+                monster={monster.Monster}
               />
             ))
           ) : (
