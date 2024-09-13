@@ -7,6 +7,9 @@ import MonsterCard from "../components/Card";
 
 function Home() {
   const [monsters, setMonsters] = useState([]);
+  const [gemini, setGemini] = useState("");
+  const [geminiResponse, setGeminiResponse] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const fetchMonsters = async () => {
@@ -30,10 +33,69 @@ function Home() {
     fetchMonsters();
   }, []);
 
+  const handleSubmitGemini = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await baseURL.post(
+        "/gemini",
+        {
+          question: gemini,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+      console.log(response.data, "<<< handleSubmitGemini");
+      setGeminiResponse(response.data.data);
+    } catch (err) {
+      localStorage.removeItem("access_token");
+      console.log(err, "<<< err handleSubmitGemini");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Navbar />
       <div className="container mt-4">
+        {/* GeminiAI */}
+        <div className="row mb-4">
+          <div className="col-md-6">
+            <h3>Ask Gemini AI about Monster</h3>
+            <form onSubmit={handleSubmitGemini}>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="..."
+                  value={gemini}
+                  onChange={(e) => setGemini(e.target.value)}
+                />
+              </div>
+              <button type="submit" className="btn btn-info" disabled={loading}>
+                {loading ? "Loading..." : "Ask"}
+              </button>
+            </form>
+
+            {geminiResponse && (
+              <div className="mt-4">
+                <h4>Gemini AI Response:</h4>
+                <p
+                  style={{
+                    textAlign: "justify",
+                  }}
+                >
+                  {geminiResponse}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+        {/* End of GeminiAI */}
         <div className="mb-4">
           <button
             onClick={() => navigate("/favorites")}
@@ -43,7 +105,8 @@ function Home() {
           </button>
         </div>
         <h2 className="mb-4">Monster List</h2>
-        <div className="row">
+
+        <div className="d-flex flex-wrap justify-content-between">
           {monsters.map((e) => (
             <MonsterCard
               key={e.id}

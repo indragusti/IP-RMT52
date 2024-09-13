@@ -2,14 +2,10 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { baseURL } from "../helpers/http-client";
 import Navbar from "../components/Navbar";
-// import detail from "./styles/detail.css";
-
-// import axios from "axios";
 
 function Detail() {
   const [monster, setMonster] = useState({});
   const { id } = useParams();
-  // const [id, setId] = useState("");
 
   const fetchMonsterById = async (id) => {
     try {
@@ -31,8 +27,6 @@ function Detail() {
     }
   }, [id]);
 
-  // console.log(cuisine);
-
   if (!monster) {
     return null;
   }
@@ -45,8 +39,9 @@ function Detail() {
           <div className="col-md-4">
             <div
               style={{
-                width: "300px",
-                height: "200px",
+                width: "100%",
+                maxWidth: "400px",
+                height: "auto",
                 backgroundColor: "#f0f0f0",
                 display: "flex",
                 alignItems: "center",
@@ -55,22 +50,39 @@ function Detail() {
               }}
             >
               <img
-                src={monster.imgUrl}
+                src={monster.imgUrl || "https://via.placeholder.com/150"}
                 alt={monster.name}
                 style={{
                   width: "100%",
-                  height: "100%",
+                  height: "auto",
                   objectFit: "cover",
                 }}
               />
             </div>
           </div>
+
           <div className="col-md-8">
             <div className="d-flex flex-column h-100">
-              <h5 className="mb-2 text-start">Name: {monster.name}</h5>
-              <h5 className="mb-2">Type: {monster.type}</h5>
-              <h5 className="mb-2">Species: {monster.species}</h5>
-              <p className="text-muted mb-2">{monster.description}</p>
+              <div
+                style={{
+                  backgroundColor: "#000",
+                  padding: "15px",
+                  borderRadius: "8px",
+                }}
+              >
+                <h5 className="mb-2 text-start" style={{ color: "#fff" }}>
+                  Name: {monster.name}
+                </h5>
+                <h5 className="mb-2" style={{ color: "#fff" }}>
+                  Type: {monster.type}
+                </h5>
+                <h5 className="mb-2" style={{ color: "#fff" }}>
+                  Species: {monster.species}
+                </h5>
+                <h5 className="mb-2" style={{ color: "#ccc" }}>
+                  Description: {monster.description}
+                </h5>
+              </div>
             </div>
           </div>
         </div>

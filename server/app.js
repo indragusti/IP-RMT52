@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 require("dotenv").config();
 
 // const cors = require("cors");
@@ -24,11 +28,13 @@ const gemini = require("./helpers/gemini");
 
 app.post("/gemini", async (req, res, next) => {
   try {
-    const { monster1, monster2 } = req.body;
-    let data = await gemini(monster1, monster2);
-    res.status(200).json(data);
+    const { question } = req.body;
+    const prompt = `${question}`;
+    const data = await gemini(prompt);
+    res.status(200).json({ data });
   } catch (err) {
-    console.log(err);
+    console.log(err, "<<< err gemini");
+    next(err);
   }
 });
 
@@ -54,5 +60,5 @@ app.delete("/favorites/:monsterId", UserFavController.delFavMonster);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Listening to port: ${PORT} with CORS enabled`);
+  console.log(`Listening to port: ${PORT}`);
 });

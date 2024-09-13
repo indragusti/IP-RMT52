@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+
 export default function Navbar() {
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -8,7 +9,9 @@ export default function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container">
+      <div className="container-fluid">
+        {" "}
+        {/* Ganti container dengan container-fluid */}
         <span className="navbar-brand">MONHUN</span>
         <button
           className="navbar-toggler"
